@@ -8,3 +8,5 @@ export const recipeRoute = express.Router();
 recipeRoute.get("/get-recipes", ctrlRecipe.getAllRecipes);
 
 recipeRoute.post("/get-recipes", isEmptyBody, ctrlRecipe.addRecipe);
+
+recipeRoute.put("/get-recipes/:id", isEmptyBody, ctrlRecipe.changeVote);
