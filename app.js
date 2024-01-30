@@ -3,7 +3,7 @@ import morgan from "morgan";
 import cors from "cors";
 import "dotenv/config";
 
-import { recipeRoute } from "./routes/index.js";
+import { recipeRoute, countryRoute } from "./routes/index.js";
 
 const app = express();
 
@@ -11,6 +11,7 @@ app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
 
+app.use("/api/countries", countryRoute);
 app.use("/api/recipes", recipeRoute);
 
 app.use((_, res) => {

@@ -18,7 +18,8 @@ const getRecipeById = async (req, res) => {
 const addRecipe = async (req, res) => {
   const { name, ingredients, instructions, country } = req.body;
 
-  let findCountry = await Country.findOne({ country });
+  let findCountry = await Country.findOne({ country }, "-vote_bank");
+
   if (!findCountry) {
     findCountry = await Country.create({
       country,
@@ -33,9 +34,10 @@ const addRecipe = async (req, res) => {
     instructions,
     country,
   });
-  findCountry.recipes.push(newRecipe._id);
-  await findCountry.save();
 
+  findCountry.recipes.push(newRecipe);
+  await findCountry.save();
+  console.log(findCountry.recipes);
   res.status(201).json(newRecipe);
 };
 
@@ -48,7 +50,10 @@ const changeVote = async (req, res) => {
   const newBody = {
     vote_count: recipe.vote_count + 1,
     vote_average: calculateRating(recipe.vote_bank),
-    vote_bank: { ...recipe.vote_bank, [newVote]: vote_bank[newVote] + 1 },
+    vote_bank: {
+      ...recipe.vote_bank,
+      [newVote]: recipe.vote_bank[newVote] + 1,
+    },
   };
 
   await Recipe.findByIdAndUpdate(id, newBody);

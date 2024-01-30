@@ -1,3 +1,4 @@
+import Joi from "joi";
 import { Schema, model } from "mongoose";
 
 const recipeSchema = new Schema(
@@ -14,7 +15,6 @@ const recipeSchema = new Schema(
     },
     vote_average: {
       type: Number,
-
       default: 0,
     },
     vote_count: {
@@ -31,5 +31,16 @@ const recipeSchema = new Schema(
   },
   { versionKey: false }
 );
+
+export const newRecipeSchema = Joi.object({
+  name: Joi.string().required(),
+  instructions: Joi.string().required(),
+  ingredients: Joi.array().items(Joi.string()).required(),
+  country: Joi.string().required(),
+});
+
+export const changeVoteSchema = Joi.object({
+  newVote: Joi.number().required(),
+});
 
 export const Recipe = model("recipe", recipeSchema);
