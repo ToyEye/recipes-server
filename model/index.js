@@ -1,2 +1,3 @@
-export { Country } from "./recipeCountryModel.js";
+export { Country } from "./countryModel.js";
 export { Recipe } from "./recipeModel.js";
+export { User } from "./usersSchema.js";

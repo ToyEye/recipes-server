@@ -1,6 +1,6 @@
 import { ctrlWrapper } from "../decorators/index.js";
 import { Recipe, Country } from "../model/index.js";
-import { HttpErrors, calculateRating } from "../helpers/index.js";
+import { calculateRating } from "../helpers/index.js";
 
 const getAllRecipes = async (req, res) => {
   const recipes = await Recipe.find({}, "-vote_bank");
