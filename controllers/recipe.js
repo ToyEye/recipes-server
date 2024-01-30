@@ -1,11 +1,18 @@
 import { ctrlWrapper } from "../decorators/index.js";
 import { Recipe, Country } from "../model/index.js";
-import { HttpErrors } from "../helpers/index.js";
+import { HttpErrors, calculateRating } from "../helpers/index.js";
 
 const getAllRecipes = async (req, res) => {
-  const recipes = await Recipe.find();
+  const recipes = await Recipe.find({}, "-vote_bank");
 
   res.status(200).json(recipes);
+};
+
+const getRecipeById = async (req, res) => {
+  const { id } = req.params;
+
+  const recipe = await Recipe.findById(id, "-vote_bank");
+  res.status(200).json(recipe);
 };
 
 const addRecipe = async (req, res) => {
@@ -36,34 +43,12 @@ const changeVote = async (req, res) => {
   const { id } = req.params;
   const { newVote } = req.body;
 
-  const { vote_count, vote_bank } = await Recipe.findById(
-    id,
-    "vote_count vote_bank"
-  );
-
-  function calculateRating(votes) {
-    let totalScore = 0;
-    let totalVotes = 0;
-
-    for (let score in votes) {
-      if (votes.hasOwnProperty(score)) {
-        totalScore += parseInt(score) * votes[score];
-        totalVotes += votes[score];
-      }
-    }
-
-    if (totalVotes === 0) {
-      return 0;
-    }
-
-    const rating = totalScore / totalVotes;
-    return rating;
-  }
+  const recipe = await Recipe.findById(id, "vote_count vote_bank");
 
   const newBody = {
-    vote_count: vote_count + 1,
-    vote_average: calculateRating(vote_bank),
-    vote_bank: { ...vote_bank, [newVote]: vote_bank[newVote] + 1 },
+    vote_count: recipe.vote_count + 1,
+    vote_average: calculateRating(recipe.vote_bank),
+    vote_bank: { ...recipe.vote_bank, [newVote]: vote_bank[newVote] + 1 },
   };
 
   await Recipe.findByIdAndUpdate(id, newBody);
@@ -74,4 +59,5 @@ export default {
   getAllRecipes: ctrlWrapper(getAllRecipes),
   addRecipe: ctrlWrapper(addRecipe),
   changeVote: ctrlWrapper(changeVote),
+  getRecipeById: ctrlWrapper(getRecipeById),
 };
