@@ -37,7 +37,7 @@ const addRecipe = async (req, res) => {
 
   findCountry.recipes.push(newRecipe);
   await findCountry.save();
-  console.log(findCountry.recipes);
+
   res.status(201).json(newRecipe);
 };
 
