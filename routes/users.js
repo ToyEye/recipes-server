@@ -23,4 +23,6 @@ usersRoute.post(
   ctrlUser.signIn
 );
 
+usersRoute.post("/logout", authenticate, ctrlUser.logout);
+
 usersRoute.patch("/api-key", authenticate, ctrlUser.createApiKey);

@@ -70,8 +70,16 @@ const createApiKey = async (req, res) => {
   res.status(201).json({ apiKey });
 };
 
+const logout = async (req, res) => {
+  const { _id } = req.user;
+  await User.findByIdAndUpdate(_id, { token: "" });
+
+  res.json({ message: "logout success" });
+};
+
 export default {
   signUp: ctrlWrapper(signUp),
   signIn: ctrlWrapper(signIn),
   createApiKey: ctrlWrapper(createApiKey),
+  logout: ctrlWrapper(logout),
 };
