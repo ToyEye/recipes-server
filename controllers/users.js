@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { nanoid } from "nanoid";
 
 import { User } from "../model/usersSchema.js";
 import { ctrlWrapper } from "../decorators/index.js";
@@ -50,10 +51,27 @@ const signIn = async (req, res) => {
 
   await User.findByIdAndUpdate(user._id, { token });
 
-  res.status(200).json({ user: { email: user.email, name: user.name }, token });
+  res.status(200).json({
+    user: {
+      email: user.email,
+      name: user.name,
+    },
+    token,
+  });
+};
+
+const createApiKey = async (req, res) => {
+  const { _id } = req.user;
+
+  const apiKey = nanoid(30);
+
+  await User.findByIdAndUpdate(_id, { apiKey });
+
+  res.status(201).json({ apiKey });
 };
 
 export default {
   signUp: ctrlWrapper(signUp),
   signIn: ctrlWrapper(signIn),
+  createApiKey: ctrlWrapper(createApiKey),
 };

@@ -1,5 +1,9 @@
 import express from "express";
-import { isEmptyBody, isValidId, validateBody } from "../middlewares/index.js";
+import {
+  isEmptyBody,
+  validateBody,
+  authenticate,
+} from "../middlewares/index.js";
 import * as userSchema from "../model/usersSchema.js";
 import ctrlUser from "../controllers/users.js";
 
@@ -18,3 +22,5 @@ usersRoute.post(
   validateBody(userSchema.signInSchema),
   ctrlUser.signIn
 );
+
+usersRoute.patch("/api-key", authenticate, ctrlUser.createApiKey);
