@@ -11,10 +11,10 @@ import * as recipeSchema from "../model/recipeModel.js";
 
 export const recipeRoute = express.Router();
 
-recipeRoute.get("/get-recipes", isApiKey, ctrlRecipe.getAllRecipes);
+recipeRoute.get("/recipes", isApiKey, ctrlRecipe.getAllRecipes);
 
 recipeRoute.post(
-  "/get-recipes",
+  "/recipes",
   isApiKey,
   isEmptyBody,
   validateBody(recipeSchema.newRecipeSchema),
@@ -22,7 +22,7 @@ recipeRoute.post(
 );
 
 recipeRoute.put(
-  "/get-recipes/:id",
+  "/recipes/:id",
   isApiKey,
   isEmptyBody,
   isValidId,
@@ -30,4 +30,4 @@ recipeRoute.put(
   ctrlRecipe.changeVote
 );
 
-recipeRoute.get("/get-recipes/:id", isValidId, ctrlRecipe.getRecipeById);
+recipeRoute.get("/recipes/:id", isValidId, ctrlRecipe.getRecipeById);
