@@ -13,7 +13,7 @@ app.use(express.json());
 
 app.use("/api/users", usersRoute);
 app.use("/api/countries", countryRoute);
-app.use("/api", recipeRoute);
+app.use("/api/recipes", recipeRoute);
 
 app.use((_, res) => {
   res.status(404).json({ message: "Route not found" });

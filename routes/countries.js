@@ -10,11 +10,6 @@ import {
 
 export const countryRoute = express.Router();
 
-countryRoute.get("/get-countries", isApiKey, ctrlCountry.getAllCountries);
+countryRoute.get("/", isApiKey, ctrlCountry.getAllCountries);
 
-countryRoute.get(
-  "/get-countries/:name",
-  isApiKey,
-  isEmptyBody,
-  ctrlCountry.getCountryByName
-);
+countryRoute.get("/:name", isApiKey, isEmptyBody, ctrlCountry.getCountryByName);
