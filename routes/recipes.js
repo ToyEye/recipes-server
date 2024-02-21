@@ -33,3 +33,5 @@ recipeRoute.put(
 );
 
 recipeRoute.get("/:id", isValidId, ctrlRecipe.getRecipeById);
+
+recipeRoute.get("/country/:country", isApiKey, ctrlRecipe.getRecipesByCountry);

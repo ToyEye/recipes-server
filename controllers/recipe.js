@@ -67,9 +67,18 @@ const changeVote = async (req, res) => {
   res.status(200).json({ message: "changes success" });
 };
 
+const getRecipesByCountry = async (req, res) => {
+  const { country } = req.params;
+
+  const countryRecipeList = await Recipe.find({ country }, "-vote_bank");
+
+  res.status(200).json(countryRecipeList);
+};
+
 export default {
   getAllRecipes: ctrlWrapper(getAllRecipes),
   addRecipe: ctrlWrapper(addRecipe),
   changeVote: ctrlWrapper(changeVote),
   getRecipeById: ctrlWrapper(getRecipeById),
+  getRecipesByCountry: ctrlWrapper(getRecipesByCountry),
 };

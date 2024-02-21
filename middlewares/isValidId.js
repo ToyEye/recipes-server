@@ -8,5 +8,6 @@ export const isValidId = (req, res, next) => {
   if (!isValidObjectId(id)) {
     next(HttpErrors(400, `${id} is not valid id`));
   }
+
   next();
 };
