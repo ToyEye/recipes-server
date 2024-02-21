@@ -7,7 +7,6 @@ const countrySchema = new Schema(
       required: true,
     },
     description: { type: String },
-    recipes: [{ type: Schema.Types.Mixed, ref: "Recipe" }],
   },
   { versionKey: false }
 );
