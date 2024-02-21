@@ -1,5 +1,5 @@
 import { ctrlWrapper } from "../decorators/index.js";
-import { Recipe, Country } from "../model/index.js";
+import { Recipe, Country, User } from "../model/index.js";
 import { calculateRating } from "../helpers/index.js";
 
 const getAllRecipes = async (req, res) => {
@@ -17,7 +17,7 @@ const getRecipeById = async (req, res) => {
 
 const addRecipe = async (req, res) => {
   const { name, ingredients, instructions, country } = req.body;
-
+  const userId = req.user.id;
   let findCountry = await Country.findOne({ country }, "-vote_bank");
 
   if (!findCountry) {
@@ -33,7 +33,14 @@ const addRecipe = async (req, res) => {
     ingredients,
     instructions,
     country,
+    add_from: userId,
   });
+
+  await User.findByIdAndUpdate(
+    userId,
+    { $push: { addedRecipes: newRecipe._id } },
+    { new: true }
+  );
 
   findCountry.recipes.push(newRecipe);
   await findCountry.save();

@@ -28,6 +28,7 @@ const recipeSchema = new Schema(
       4: { type: Number, default: 0 },
       5: { type: Number, default: 0 },
     },
+    add_from: { type: Schema.Types.ObjectId, ref: "User" },
   },
   { versionKey: false }
 );

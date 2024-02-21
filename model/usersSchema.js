@@ -8,6 +8,7 @@ const userSchema = new Schema(
     password: { type: String, required: true },
     apiKey: { type: String, default: "" },
     token: { type: String, default: "" },
+    addedRecipes: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
   },
   { versionKey: false }
 );

@@ -6,6 +6,7 @@ import {
   isValidId,
   validateBody,
   isApiKey,
+  authenticate,
 } from "../middlewares/index.js";
 import * as recipeSchema from "../model/recipeModel.js";
 
@@ -16,6 +17,7 @@ recipeRoute.get("/", isApiKey, ctrlRecipe.getAllRecipes);
 recipeRoute.post(
   "/",
   isApiKey,
+  authenticate,
   isEmptyBody,
   validateBody(recipeSchema.newRecipeSchema),
   ctrlRecipe.addRecipe
