@@ -11,6 +11,7 @@ const reviewsSchema = new Schema(
       type: String,
       required: true,
     },
+    recipe: { type: String, required: true },
   },
   { versionKey: false, timestamps: true }
 );
