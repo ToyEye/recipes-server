@@ -4,7 +4,7 @@ import { Recipe, Review } from "../model/index.js";
 
 const getRecipeReviews = async (req, res) => {
   const { id } = req.params;
-  const reviews = await Review.find({ recipe: id });
+  const reviews = await Review.find({ recipeId: id });
 
   res.status(200).json(reviews);
 };
@@ -12,7 +12,7 @@ const getRecipeReviews = async (req, res) => {
 const addReview = async (req, res) => {
   const { description, author, recipeId } = req.body;
   const recipe = await Recipe.findById(recipeId);
-  console.log(recipe);
+
   if (!recipe) {
     throw HttpErrors(404);
   }

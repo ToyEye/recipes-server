@@ -10,6 +10,6 @@ import {
 
 export const reviewRoute = express.Router();
 
-reviewRoute.get("/:id/res", isValidId, isApiKey, ctrlReviews.getRecipeReviews);
+reviewRoute.get("/:id", isValidId, isApiKey, ctrlReviews.getRecipeReviews);
 
 reviewRoute.post("/", authenticate, isEmptyBody, ctrlReviews.addReview);
