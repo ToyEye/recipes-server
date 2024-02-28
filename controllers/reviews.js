@@ -1,19 +1,23 @@
 import { ctrlWrapper } from "../decorators/ctrlWrapper.js";
+import { HttpErrors } from "../helpers/HttpErrors.js";
 import { Recipe, Review } from "../model/index.js";
 
 const getRecipeReviews = async (req, res) => {
   const { id } = req.params;
-  const reviews = await Review({ recipe: id });
+  const reviews = await Review.find({ recipe: id });
 
   res.status(200).json(reviews);
 };
 
 const addReview = async (req, res) => {
-  const id = req.user.id;
-  const { description, author } = req.body;
+  const { description, author, recipeId } = req.body;
+  const recipe = await Recipe.findById(recipeId);
+  console.log(recipe);
+  if (!recipe) {
+    throw HttpErrors(404);
+  }
 
-  const review = await Review.create({ author, description, recipe: id });
-
+  const review = await Review.create({ author, description, recipeId });
   res.status(200).json(review);
 };
 
