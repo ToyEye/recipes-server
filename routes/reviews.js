@@ -6,10 +6,25 @@ import {
   isApiKey,
   isEmptyBody,
   authenticate,
+  validateBody,
 } from "../middlewares/index.js";
+import * as schema from "../model/reviewsModel.js";
 
 export const reviewRoute = express.Router();
 
 reviewRoute.get("/:id", isValidId, isApiKey, ctrlReviews.getRecipeReviews);
 
-reviewRoute.post("/", authenticate, isEmptyBody, ctrlReviews.addReview);
+reviewRoute.post(
+  "/",
+  authenticate,
+  isEmptyBody,
+  validateBody(schema.createReviewSchema),
+  ctrlReviews.addReview
+);
+
+reviewRoute.patch(
+  "/description",
+  isEmptyBody,
+  authenticate,
+  ctrlReviews.changeReviewById
+);

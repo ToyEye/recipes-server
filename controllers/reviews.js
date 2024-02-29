@@ -21,7 +21,18 @@ const addReview = async (req, res) => {
   res.status(200).json(review);
 };
 
-const changeReviewById = async (req, res) => {};
+const changeReviewById = async (req, res) => {
+  const { id, description } = req.body;
+
+  const newDescription = await Review.findByIdAndUpdate(
+    id,
+    { $set: { description: description } },
+    {
+      new: true,
+    }
+  );
+  res.status(200).json(newDescription);
+};
 
 const deleteReviewById = async (req, res) => {};
 
