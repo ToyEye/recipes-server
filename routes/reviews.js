@@ -28,3 +28,5 @@ reviewRoute.patch(
   authenticate,
   ctrlReviews.changeReviewById
 );
+
+reviewRoute.delete("/", authenticate, ctrlReviews.deleteReviewById);

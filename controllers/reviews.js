@@ -34,7 +34,16 @@ const changeReviewById = async (req, res) => {
   res.status(200).json(newDescription);
 };
 
-const deleteReviewById = async (req, res) => {};
+const deleteReviewById = async (req, res) => {
+  const { id } = req.body;
+
+  const deletedReview = await Review.findByIdAndDelete(id);
+  if (!deletedReview) {
+    throw HttpErrors(400);
+  }
+
+  res.status(200).json({ message: "Review deleted" });
+};
 
 export default {
   getRecipeReviews: ctrlWrapper(getRecipeReviews),
