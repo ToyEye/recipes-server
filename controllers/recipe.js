@@ -95,6 +95,7 @@ const changeVote = async (req, res) => {
 
 const getRecipesByCountry = async (req, res) => {
   const { country } = req.params;
+  console.log(country);
 
   const countryRecipeList = await Recipe.find({ country }, "-vote_bank");
 

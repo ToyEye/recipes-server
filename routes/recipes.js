@@ -32,6 +32,6 @@ recipeRoute.put(
 
 recipeRoute.get("/country/:id", isValidId, ctrlRecipe.getRecipeById);
 
-recipeRoute.get("/country/:country", ctrlRecipe.getRecipesByCountry);
+recipeRoute.get("/countries/:country", ctrlRecipe.getRecipesByCountry);
 
 recipeRoute.get("/random", ctrlRecipe.getRandomRecipes);
