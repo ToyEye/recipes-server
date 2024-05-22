@@ -60,16 +60,6 @@ const signIn = async (req, res) => {
   });
 };
 
-const createApiKey = async (req, res) => {
-  const { _id } = req.user;
-
-  const apiKey = nanoid(30);
-
-  await User.findByIdAndUpdate(_id, { apiKey });
-
-  res.status(201).json({ apiKey });
-};
-
 const logout = async (req, res) => {
   const { _id } = req.user;
   await User.findByIdAndUpdate(_id, { token: "" });
@@ -77,9 +67,17 @@ const logout = async (req, res) => {
   res.json({ message: "logout success" });
 };
 
+const getCurrentUser = async (req, res) => {
+  const { _id } = req.user;
+
+  const currentUser = await User.findById(_id);
+
+  return currentUser;
+};
+
 export default {
   signUp: ctrlWrapper(signUp),
   signIn: ctrlWrapper(signIn),
-  createApiKey: ctrlWrapper(createApiKey),
   logout: ctrlWrapper(logout),
+  getCurrentUser: ctrlWrapper(getCurrentUser),
 };

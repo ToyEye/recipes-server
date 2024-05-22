@@ -11,21 +11,28 @@ const getRecipeReviews = async (req, res) => {
 
 const addReview = async (req, res) => {
   const { description, author, recipeId } = req.body;
+  const { _id } = req.user;
   const recipe = await Recipe.findById(recipeId);
 
   if (!recipe) {
     throw HttpErrors(404);
   }
 
-  const review = await Review.create({ author, description, recipeId });
+  const review = await Review.create({
+    author,
+    description,
+    recipeId,
+    owner: _id,
+  });
   res.status(200).json(review);
 };
 
 const changeReviewById = async (req, res) => {
   const { id, description } = req.body;
+  const { _id } = req.user;
 
   const newDescription = await Review.findByIdAndUpdate(
-    id,
+    { _id: id, owner: _id },
     { $set: { description: description } },
     {
       new: true,
@@ -36,8 +43,9 @@ const changeReviewById = async (req, res) => {
 
 const deleteReviewById = async (req, res) => {
   const { id } = req.body;
+  const { _id } = req.user;
 
-  const deletedReview = await Review.findByIdAndDelete(id);
+  const deletedReview = await Review.findOneAndDelete({ _id: id, owner: _id });
   if (!deletedReview) {
     throw HttpErrors(400);
   }

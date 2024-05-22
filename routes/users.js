@@ -25,4 +25,4 @@ usersRoute.post(
 
 usersRoute.post("/logout", authenticate, ctrlUser.logout);
 
-usersRoute.patch("/api-key", authenticate, ctrlUser.createApiKey);
+usersRoute.patch("/current", authenticate, ctrlUser.getCurrentUser);
