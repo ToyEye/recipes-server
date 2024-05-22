@@ -3,7 +3,14 @@ import { Recipe, Country, User } from "../model/index.js";
 import { calculateRating } from "../helpers/index.js";
 
 const getAllRecipes = async (req, res) => {
-  const recipes = await Recipe.find({}, "-vote_bank");
+  const { page, per_page } = req.query;
+
+  const skip = (page - 1) * per_page;
+
+  const recipes = await Recipe.find({}, "-vote_bank", {
+    skip,
+    limit: per_page,
+  });
 
   res.status(200).json(recipes);
 };
