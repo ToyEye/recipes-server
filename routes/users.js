@@ -25,4 +25,4 @@ usersRoute.post(
 
 usersRoute.post("/logout", authenticate, ctrlUser.logout);
 
-usersRoute.patch("/current", authenticate, ctrlUser.getCurrentUser);
+usersRoute.get("/current", authenticate, ctrlUser.getCurrentUser);

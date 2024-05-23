@@ -9,7 +9,11 @@ import { HttpErrors } from "../helpers/index.js";
 const { SECRET_KEY } = process.env;
 
 const signUp = async (req, res) => {
-  const { email, name, password } = req.body;
+  const { email, name, password, confirmPassword } = req.body;
+
+  if (password !== confirmPassword) {
+    throw HttpErrors(400, "Passwords must match");
+  }
 
   const user = await User.findOne({ email });
   if (user) {
