@@ -76,7 +76,7 @@ const getCurrentUser = async (req, res) => {
 
   const currentUser = await User.findById(_id);
 
-  res.json({ user: currentUser.name, email: currentUser.email });
+  res.json({ name: currentUser.name, email: currentUser.email });
 };
 
 export default {
