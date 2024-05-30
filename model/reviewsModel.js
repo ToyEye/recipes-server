@@ -23,6 +23,7 @@ const reviewsSchema = new Schema(
 export const createReviewSchema = Joi.object({
   author: Joi.string(),
   description: Joi.string().max(400).required(),
+  recipeId: Joi.string(),
 });
 
 export const Review = model("review", reviewsSchema);
