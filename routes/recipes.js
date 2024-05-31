@@ -22,7 +22,7 @@ recipeRoute.post(
 );
 
 recipeRoute.put(
-  "/:id",
+  "/changevote/:id",
   isEmptyBody,
   authenticate,
   isValidId,
