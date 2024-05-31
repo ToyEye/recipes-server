@@ -90,7 +90,7 @@ const changeVote = async (req, res) => {
   };
 
   await Recipe.findByIdAndUpdate(id, newBody);
-  res.status(200).json({ message: "changes success" });
+  res.status(200).json(newBody);
 };
 
 const getRecipesByCountry = async (req, res) => {
