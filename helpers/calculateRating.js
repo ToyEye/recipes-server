@@ -14,5 +14,6 @@ export const calculateRating = (votes) => {
   }
 
   const rating = totalScore / totalVotes;
-  return rating;
+
+  return Number(rating.toFixed(2));
 };

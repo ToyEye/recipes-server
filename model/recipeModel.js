@@ -31,11 +31,11 @@ const recipeSchema = new Schema(
       default: 0,
     },
     vote_bank: {
-      vote1: { type: Number, default: 0 },
-      vote2: { type: Number, default: 0 },
-      vote3: { type: Number, default: 0 },
-      vote4: { type: Number, default: 0 },
-      vote5: { type: Number, default: 0 },
+      1: { type: Number, default: 0 },
+      2: { type: Number, default: 0 },
+      3: { type: Number, default: 0 },
+      4: { type: Number, default: 0 },
+      5: { type: Number, default: 0 },
     },
   },
   { versionKey: false }
