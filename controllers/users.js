@@ -32,7 +32,7 @@ const signUp = async (req, res) => {
 
   await User.findByIdAndUpdate(newUser._id, { token });
 
-  res.status(201).json({ user: { email, name }, token });
+  res.status(201).json({ user: { email, name, id: newUser._id }, token });
 };
 
 const signIn = async (req, res) => {
@@ -59,6 +59,7 @@ const signIn = async (req, res) => {
     user: {
       email: user.email,
       name: user.name,
+      id: user._id,
     },
     token,
   });
@@ -76,7 +77,7 @@ const getCurrentUser = async (req, res) => {
 
   const currentUser = await User.findById(_id);
 
-  res.json({ name: currentUser.name, email: currentUser.email });
+  res.json({ name: currentUser.name, email: currentUser.email, id: _id });
 };
 
 export default {
