@@ -22,10 +22,10 @@ reviewRoute.post(
 );
 
 reviewRoute.patch(
-  "/description",
+  "/:id/description",
   isEmptyBody,
   authenticate,
   ctrlReviews.changeReviewById
 );
 
-reviewRoute.delete("/", authenticate, ctrlReviews.deleteReviewById);
+reviewRoute.delete("/:id", authenticate, ctrlReviews.deleteReviewById);

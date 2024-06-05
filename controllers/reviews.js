@@ -28,7 +28,9 @@ const addReview = async (req, res) => {
 };
 
 const changeReviewById = async (req, res) => {
-  const { id, description } = req.body;
+  const { id } = req.params;
+
+  const { description } = req.body;
   const { _id } = req.user;
 
   const newDescription = await Review.findByIdAndUpdate(
@@ -42,7 +44,8 @@ const changeReviewById = async (req, res) => {
 };
 
 const deleteReviewById = async (req, res) => {
-  const { id } = req.body;
+  const { id } = req.params;
+
   const { _id } = req.user;
 
   const deletedReview = await Review.findOneAndDelete({ _id: id, owner: _id });
