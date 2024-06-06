@@ -40,7 +40,7 @@ const changeReviewById = async (req, res) => {
       new: true,
     }
   );
-  res.status(200).json(newDescription);
+  res.status(200).json(newDescription.description);
 };
 
 const deleteReviewById = async (req, res) => {
