@@ -43,9 +43,10 @@ const recipeSchema = new Schema(
 
 export const newRecipeSchema = Joi.object({
   name: Joi.string().required(),
-  instructions: Joi.string().required(),
+  instructions: Joi.array().items(Joi.string()).required(),
   ingredients: Joi.array().items(Joi.string()).required(),
   country: Joi.string().required(),
+  description: Joi.string().required(),
 });
 
 export const changeVoteSchema = Joi.object({

@@ -1,6 +1,11 @@
 import { ctrlWrapper } from "../decorators/index.js";
 import { Recipe, Country, User } from "../model/index.js";
-import { calculateRating } from "../helpers/index.js";
+import { HttpErrors, calculateRating } from "../helpers/index.js";
+
+import fs from "fs/promises";
+import path from "path";
+
+const countryPath = path.resolve("db", "countries.json");
 
 const getAllRecipes = async (req, res) => {
   const { page, per_page } = req.query;
@@ -23,34 +28,27 @@ const getRecipeById = async (req, res) => {
 };
 
 const addRecipe = async (req, res) => {
-  const { name, ingredients, instructions, country } = req.body;
+  const { name, ingredients, instructions, country, description } = req.body;
+
   const userId = req.user.id;
-  let findCountry = await Country.findOne({ country }, "-vote_bank");
+
+  const findCountry = await Country.findOne({ country }, "-vote_bank");
 
   if (!findCountry) {
-    // findCountry = await Country.create({
-    //   country,
-    //   description: `recipes from the country of ${country}`,
-    //   recipes: [],
-    // });
     try {
-      const response = await fetch(
-        `https://restcountries.com/v3.1/name/${country}`
+      const countryList = JSON.parse(await fs.readFile(countryPath));
+
+      const modernCountry = countryList.filter(
+        ({ country: newCountry }) => newCountry === country
       );
-      if (!response.ok) {
-        return new Error("Error when requesting country");
+
+      if (!modernCountry.length) {
+        throw HttpErrors(400, "country doesn't exist");
+      } else {
+        await Country.create({ ...modernCountry[0] });
       }
-
-      const newCountry = await response.json();
-
-      const modernCountry = newCountry.map(({ name: { common }, flags }) => ({
-        country: common,
-        flag: flags.png,
-      }));
-
-      await Country.create({ ...modernCountry[0] });
     } catch (error) {
-      console.log(error.message);
+      return res.status(400).json({ message: error.message });
     }
   }
 
@@ -58,6 +56,7 @@ const addRecipe = async (req, res) => {
     name,
     ingredients,
     instructions,
+    description,
     country,
     owner: userId,
   });
@@ -67,9 +66,6 @@ const addRecipe = async (req, res) => {
     { $push: { addedRecipes: newRecipe._id } },
     { new: true }
   );
-
-  findCountry.recipes.push(newRecipe);
-  await findCountry.save();
 
   res.status(201).json(newRecipe);
 };
@@ -95,7 +91,6 @@ const changeVote = async (req, res) => {
 
 const getRecipesByCountry = async (req, res) => {
   const { country } = req.params;
-  console.log(country);
 
   const countryRecipeList = await Recipe.find({ country }, "-vote_bank");
 
